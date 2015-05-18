@@ -10,7 +10,7 @@ BRed='\e[1;31m';
 SHELL=./42sh
 TCSH=tcsh
 
-trap 'if [[ $? -eq 139 ]]; then echo "segfault !"; fi' CHLD
+trap 'echo -en "${BRed}SEGFAULT${RCol}" && rm core.*' SIGSEGV
 
 LS_BEGIN=`ls`
 
