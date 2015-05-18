@@ -25,12 +25,16 @@ declare -a tests=(
 
 "cat Makefile" 
 "Unexisting"
+"pwd && cd .. && cd - && pwd"
 "ls | grep include"
+"ls|grep include"
+"ls | grep include && echo ok || echo ko"
 "ls | grep e | grep a > toto ; cat toto ; rm toto"
 "ls > cul | ls < EOF"
 "cat toto"
 "cat -e Makefile | grep 'CC'"
 "ls /root || ls"
+"cat << EOF | less"
 "ls;ls"
 "ls ; ls"
 "|"
@@ -42,7 +46,11 @@ declare -a tests=(
 ";;"
 "who"
 "cat << EOF\ncoucou\nsalut\nEOF"
-"/bin/kill -11 0"
+"echo echo echo ls | $SHELL | $SHELL | $SHELL "
+"touch toto ; touch test ; cat < toto | wc -l < test ; rm toto ; rm test"
+"mkdir lol && touch lol/test && ls > ls_out lol ; cat ls_out ; rm -Rf lol ; rm -f ls_out"
+"echo /*/*/*/*/*/*/*/*/*"
+#"/bin/kill -11 0"
 
 # etc...
 )
