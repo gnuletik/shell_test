@@ -29,6 +29,20 @@ declare -a tests=(
 "ls | grep e | grep a > toto ; cat toto ; rm toto"
 "ls > cul | ls < EOF"
 "cat toto"
+"cat -e Makefile | grep 'CC'"
+"ls /root || ls"
+"ls;ls"
+"ls ; ls"
+"|"
+""
+"&"
+"&&"
+"||"
+";"
+";;"
+"who"
+"cat << EOF\ncoucou\nsalut\nEOF"
+"/bin/kill -11 0"
 
 # etc...
 )
