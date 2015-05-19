@@ -2,6 +2,10 @@
 
 # TO DO
 # Rediriger vers un fichier la difference et le supprimer seulement si le test a succed ?
+# Only one execution !!
+# Option pour tester avec valgrind
+# Option pour donner un fichier de test
+# tput instead of static termcaps ?
 
 RCol='\e[0m'
 BBla='\e[1;33m';
@@ -49,7 +53,7 @@ declare -a tests=(
 "echo echo echo ls | $SHELL | $SHELL | $SHELL "
 "touch toto ; touch test ; cat < toto | wc -l < test ; rm toto ; rm test"
 "mkdir lol && touch lol/test && ls > ls_out lol ; cat ls_out ; rm -Rf lol ; rm -f ls_out"
-"echo /*/*/*/*/*/*/*/*/*"
+"echo /*/*/"
 #"/bin/kill -11 0"
 
 # etc...
