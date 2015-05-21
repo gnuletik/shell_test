@@ -54,6 +54,7 @@ declare -a tests=(
 "touch toto ; touch test ; cat < toto | wc -l < test ; rm toto ; rm test"
 "mkdir lol && touch lol/test && ls > ls_out lol ; cat ls_out ; rm -Rf lol ; rm -f ls_out"
 "echo /*/*/"
+"touch respect; rm respect; ls respect || echo le respect a disparu"
 #"/bin/kill -11 0"
 
 # etc...
