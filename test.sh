@@ -57,6 +57,7 @@ declare -a tests=(
 "touch respect; rm respect; ls respect || echo le respect a disparu"
 "ls | > file_test echo test1 ; cat file_test ; rm -f file_test"
 #"/bin/kill -11 0"
+"cat /dev/urandom | less"
 
 # etc...
 )
