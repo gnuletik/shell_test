@@ -35,6 +35,7 @@ declare -a tests=(
 "ls | grep include && echo ok || echo ko"
 "ls | grep e | grep a > toto ; cat toto ; rm toto"
 "ls > cul | ls < EOF"
+"ls | > cul"
 "cat toto"
 "cat -e Makefile | grep 'CC'"
 "ls /root || ls"
@@ -56,7 +57,6 @@ declare -a tests=(
 "echo /*/*/"
 "touch respect; rm respect; ls respect || echo le respect a disparu"
 "ls | > file_test echo test1 ; cat file_test ; rm -f file_test"
-#"/bin/kill -11 0"
 
 # etc...
 )
