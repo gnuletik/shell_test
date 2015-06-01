@@ -57,7 +57,12 @@ declare -a tests=(
 "echo /*/*/"
 "touch respect; rm respect; ls respect || echo le respect a disparu"
 "ls | > file_test echo test1 ; cat file_test ; rm -f file_test"
+"ls ;; ls"
+"ls ; | ls"
 
+# /bin/kill -11 0
+# cat /dev/urandom | ./42sh
+# ./42sh < /dev/urandom
 # etc...
 )
 
