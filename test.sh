@@ -1,15 +1,27 @@
 #!/bin/bash
 
 RCol='\e[0m'
-BBla='\e[1;32m';
-BRed='\e[1;31m';
+BBla='\e[1;32m'
+BRed='\e[1;31m'
 
 SHELL=./42sh
 TCSH=tcsh
-
-trap 'echo -en "${BRed}SEGFAULT ${RCol}" && rm core.*' SIGSEGV
+MORE_TEST=0
 
 LS_BEGIN=`ls`
+
+while test $# -gt 0
+do
+    case "$1" in
+	--full)
+	    MORE_TEST=1
+	    ;;
+	*) echo "Usage ./test.sh [-full]"
+	   exit
+	   ;;
+    esac
+    shift
+done
 
 if [ ! -x ./42sh ]; then
     if [ ! -x ./mysh ]; then
@@ -23,79 +35,75 @@ else
     echo "Exécution en mode 42sh"
 fi
 
+trap 'echo -en "${BRed}SEGFAULT ${RCol}" && rm core.*' SIGSEGV
+
 ############### Mettez des tests !! ###############
+
+declare -a tests=(
+
+    "|"
+    "\"\"\"\\\"\"\"\""
+    ""
+    ";"
+    ";;"
+    ">>"
+    "<<"
+    ">"
+    "<"
+    "ls;ls"
+    "ls ; ls"
+    "cd; pwd;"
+    "cd ..; pwd;"
+    "cd ././././././; pwd;"
+    "cd -; pwd;"
+    "cat Makefile"
+    "CEBINAIRENEXISTEPAS"
+    "ls | grep include"
+    "ls|grep include"
+    "ls | grep e | grep a > toto ; cat toto ; rm toto ; cat toto;"
+    "ls > testfile | ls < EOF"
+    "ls | > testfile"
+    "cat toto"
+    "cat -e Makefile | grep 'CC'"
+    "cat << EOF | less"
+    "who"
+    "cat << EOF\ncoucou\nsalut\nEOF"
+    "touch toto ; touch test ; cat < toto | wc -l < test ; rm toto ; rm test"
+    "ls ;; ls"
+    "ls ; | ls"
+    "echo toto > test ; cat test ; echo toto >> test && cat test && rm test ;"
+    "cat /dev/urandom | $SHELL"
+    "$SHELL < /dev/urandom"
+)
 
 if [ $SHELL = "./42sh" ]; then
 
-    declare -a tests=(
+    tests+=(
 
-	"ls;ls"
-	"ls ; ls"
-	"|"
-	""
 	"&"
 	"&&"
 	"||"
-	";"
-	";;"
-	"cat Makefile"
-	"CEBINAIRENEXISTEPAS"
 	"pwd && cd .. && cd - && pwd"
-	"ls | grep include"
-	"ls|grep include"
 	"ls | grep include && echo ok || echo ko"
-	"ls | grep e | grep a > toto ; cat toto ; rm toto"
-	"ls > testfile | ls < EOF"
-	"ls | > testfile"
-	"cat toto"
-	"cat -e Makefile | grep 'CC'"
 	"ls /root || ls"
-	"cat << EOF | less"
-	"who"
-	"cat << EOF\ncoucou\nsalut\nEOF"
 	"echo echo echo ls | $SHELL | $SHELL | $SHELL "
-	"touch toto ; touch test ; cat < toto | wc -l < test ; rm toto ; rm test"
 	"mkdir lol && touch lol/test && ls > ls_out lol ; cat ls_out ; rm -Rf lol ; rm -f ls_out"
 	"echo /*/*/"
 	"touch respect; rm respect; ls respect || echo le respect a disparu"
-	"ls | > file_test echo test1 ; cat file_test ; rm -f file_test"
-	"ls ;; ls"
-	"ls ; | ls"
-	"cat /dev/urandom | ./42sh"
-	"./42sh < /dev/urandom"
-    )
-else
-    declare -a tests=(
-
-	"|"
-	""
-	";"
-	";;"
-	"ls;ls"
-	"ls ; ls"
-	"cd; pwd;"
-	"cd ..; pwd;"
-	"cd ././././././; pwd;"
-	"cd -; pwd;"
-	"cat Makefile"
-	"CEBINAIRENEXISTEPAS"
-	"ls | grep include"
-	"ls|grep include"
-	"ls | grep e | grep a > toto ; cat toto ; rm toto ; cat toto;"
-	"ls > testfile | ls < EOF"
-	"ls | > testfile"
-	"cat toto"
-	"cat -e Makefile | grep 'CC'"
-	"cat << EOF | less"
-	"who"
-	"cat << EOF\ncoucou\nsalut\nEOF"
-	"touch toto ; touch test ; cat < toto | wc -l < test ; rm toto ; rm test"
-	"ls ;; ls"
-	"ls ; | ls"
-	"cat /dev/urandom | ./mysh"
-	"./mysh < /dev/urandom"
     )
 fi
+
+if [ $MORE_TEST = 1 ]; then
+    tests+=(
+	"ls *c*"
+	"env env env env env env env -i env ls"
+	"test || test && test && test || test ; ; ; ; ; ; ; testdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxungrosbuffertoustest || test && test && test || test ; ; ; ; ; ; ; testdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireuxtestdunsupergrosbufferpoureviterlesgetnextlinefoireux;"
+	"setenv TRUC toto ; echo ${TRUC} ; echo ${truc}; setenv TRUC titi ; echo ${TRUC} ; echo ${sdse}"
+	"cd ../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../../ ; pwd ; cd -"
+	"ls /dev | grep tty | sort -r | rev > toto ; < toto cat | rev | wc -l > titi ; rm titi toto;"
+    )
+fi
+
 
 for i in "${tests[@]}"
 do
