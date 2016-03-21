@@ -16,7 +16,7 @@ do
 	--full)
 	    MORE_TEST=1
 	    ;;
-	*) echo "Usage ./test.sh [-full]"
+	*) echo "Usage ./test.sh [--full]"
 	   exit
 	   ;;
     esac
