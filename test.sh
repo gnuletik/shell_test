@@ -7,6 +7,7 @@ BRed='\e[1;31m'
 SHELL=./42sh
 TCSH=tcsh
 MORE_TEST=0
+NO_ENV=0
 
 LS_BEGIN=`ls`
 
@@ -16,7 +17,10 @@ do
 	--full)
 	    MORE_TEST=1
 	    ;;
-	*) echo "Usage ./test.sh [--full]"
+	--no-env)
+	    NO_ENV=1
+	    ;;
+	*) echo "Usage ./test.sh [--full] [--no-env]"
 	   exit
 	   ;;
     esac
@@ -130,6 +134,36 @@ echo -en "\tRETURN : "
 [ $res1 == $res2 ] && echo -e "${BBla}OK${RCol}" || echo -e "${BRed}KO${RCol}"
 
 done
+
+if [ $NO_ENV = 1 ]; then
+
+    for i in "${tests[@]}"
+    do
+
+	echo "Test [NO ENV] : $i"
+
+	#Compare stdout
+	echo -en "\tSTDOUT : "
+	diff <( echo "$i" | env -i $SHELL 2>/dev/null )     <( echo "$i" | env -i $TCSH 2>/dev/null )	   > /dev/null \
+	    && echo -e "${BBla}OK${RCol}" || echo -e "${BRed}KO${RCol}"
+
+	#Compare stderr
+	echo -en "\tSTDERR : "
+	diff <( echo "$i" | env -i $SHELL 2>&1 1>/dev/null) <( echo "$i" | env -i $TCSH 2>&1 1>/dev/null ) > /dev/null \
+	    && echo -e "${BBla}OK${RCol}" || echo -e "${BRed}KO${RCol}"
+
+	#Compare return value
+	(echo "$i" | env -i $SHELL 2>&1) >/dev/null
+	res1=$?
+	(echo "$i" | env -i $TCSH 2>&1) >/dev/null
+	res2=$?
+
+	echo -en "\tRETURN : "
+	[ $res1 == $res2 ] && echo -e "${BBla}OK${RCol}" || echo -e "${BRed}KO${RCol}"
+
+    done
+
+fi
 
 LS_END=`ls`
 
